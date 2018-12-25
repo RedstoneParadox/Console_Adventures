@@ -5,6 +5,7 @@ import main.Items.WeaponItem
 import main.characters.AbstractCharacter
 import main.characters.GenericEnemy
 import main.characters.PlayerCharacter
+import main.pool.PoolFunctions
 import main.pool.WeightedPools
 import kotlin.math.floor
 import kotlin.random.Random
@@ -24,7 +25,8 @@ class Encounter(val player: PlayerCharacter) {
 
     fun run() {
         var enemyCount : Int = Random.nextInt(0, ((1 + floor(player.level.toDouble()/4)).toInt())) + 1
-        var enemyNames : ArrayList<*> = WeightedPools.genericEnemyNames.loot(enemyCount) as ArrayList<*>
+        var enemyNames : ArrayList<*> = WeightedPools.genericEnemyNames.loot(enemyCount)
+        PoolFunctions.restorePool()
 
         for (i in 0 until(enemyCount)) {
             val enemy : GenericEnemy = GenericEnemy("generic enemy", 8, 10, this)
@@ -68,7 +70,7 @@ class Encounter(val player: PlayerCharacter) {
                 }
             }
             catch (e : Exception) {
-                println("Type continue to continue.")
+
             }
 
             player.shieldItem = null

@@ -28,21 +28,21 @@ object WeightedPools {
     }
 
     //Name pools
-    val genericEnemyNames : DecreasingWeightedPool = DecreasingWeightedPool()
+    val genericEnemyNames : WeightedPool = WeightedPool()
 
     private fun initNamePools() {
-        genericEnemyNames.addEntry("Bob")
-        genericEnemyNames.addEntry("Billy")
-        genericEnemyNames.addEntry("Dave")
-        genericEnemyNames.addEntry("Joe")
-        genericEnemyNames.addEntry("Steve")
-        genericEnemyNames.addEntry("Alex")
-        genericEnemyNames.addEntry("Gary")
-        genericEnemyNames.addEntry("Jasper")
-        genericEnemyNames.addEntry("Michael")
-        genericEnemyNames.addEntry("Eric")
-        genericEnemyNames.addEntry("Johny")
-        genericEnemyNames.addEntry("Mason")
+        genericEnemyNames.addEntry("Bob", func = "shrink")
+        genericEnemyNames.addEntry("Billy", func = "shrink")
+        genericEnemyNames.addEntry("Dave", func = "shrink")
+        genericEnemyNames.addEntry("Joe", func = "shrink")
+        genericEnemyNames.addEntry("Steve", func = "shrink")
+        genericEnemyNames.addEntry("Alex", func = "shrink")
+        genericEnemyNames.addEntry("Gary", func = "shrink")
+        genericEnemyNames.addEntry("Jasper", func = "shrink")
+        genericEnemyNames.addEntry("Michael", func = "shrink")
+        genericEnemyNames.addEntry("Eric", func = "shrink")
+        genericEnemyNames.addEntry("Johny", func = "shrink")
+        genericEnemyNames.addEntry("Mason", func = "shrink")
     }
 
     //Spawn pools

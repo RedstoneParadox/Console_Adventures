@@ -23,10 +23,10 @@ class GenericEnemy(type: String, maxHealth: Int, val exp: Int, val encounter: En
 
     init {
         if (encounter.player.level >= 5) {
-            inventory.add(WeightedPools.enemyWeapons.loot(1) as WeaponItem)
+            inventory.add(WeightedPools.enemyWeapons.loot(1)[0] as WeaponItem)
         }
         else {
-            inventory.add(WeightedPools.basicEnemyWeapons.loot(1) as WeaponItem)
+            inventory.add(WeightedPools.basicEnemyWeapons.loot(1)[0] as WeaponItem)
         }
     }
 
