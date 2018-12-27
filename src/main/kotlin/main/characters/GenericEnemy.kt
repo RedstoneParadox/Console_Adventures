@@ -3,12 +3,13 @@ package main.characters
 import main.Items.WeaponItem
 import main.encounter.Encounter
 import main.pool.WeightedPools
+import main.util.GameData
 import kotlin.random.Random
 
 /**
  * Created by RedstoneParadox on 12/22/2018.
  */
-class GenericEnemy(type: String, maxHealth: Int, val exp: Int, val encounter: Encounter) : AbstractCharacter(maxHealth, type) {
+class GenericEnemy(type: String, maxHealth: Int, val exp: Int) : AbstractCharacter(maxHealth, type) {
 
 
     override var name : String = ""
@@ -22,7 +23,7 @@ class GenericEnemy(type: String, maxHealth: Int, val exp: Int, val encounter: En
     override val customEntrance: Boolean = true
 
     init {
-        if (encounter.player.level >= 5) {
+        if (GameData.player.level >= 5) {
             inventory.add(WeightedPools.enemyWeapons.loot(1)[0] as WeaponItem)
         }
         else {
@@ -30,9 +31,9 @@ class GenericEnemy(type: String, maxHealth: Int, val exp: Int, val encounter: En
         }
     }
 
-    override fun takeTurn(encounter : Encounter) {
+    override fun takeTurn() {
 
-        encounter.attack(this, encounter.player, inventory[0] as WeaponItem)
+        GameData.encounter.attack(this, GameData.player, inventory[0] as WeaponItem)
 
     }
 

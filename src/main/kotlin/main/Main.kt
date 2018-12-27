@@ -1,8 +1,9 @@
 package main
 
-import main.characters.PlayerCharacter
+import main.console.Console
 import main.encounter.Encounter
 import main.pool.WeightedPools
+import main.util.GameData
 
 /**
  * Created by RedstoneParadox on 12/22/2018.
@@ -15,8 +16,6 @@ var run = true
 var phase: Phase = Phase.MAIN_MENU
 lateinit var gamePhase : GamePhase
 
-val player: PlayerCharacter = PlayerCharacter(10, "you")
-
 val greeting: String = "Welcome to Console Adventures!"
 val greeting2: String = "Type [start] to begin."
 
@@ -26,6 +25,7 @@ val instructions2: String = "Type [start] whenever you are ready."
 
 fun main(args: Array<String>) {
     WeightedPools.initPools()
+    Console.initCommands()
     mainMenu()
 
     while (run) {
@@ -45,8 +45,8 @@ fun main(args: Array<String>) {
 }
 
 private fun mainMenu() {
-    println(greeting)
-    println(greeting2)
+    Console.send(greeting)
+    Console.send(greeting2)
 
     while (phase == Phase.MAIN_MENU) {
         var input : String? = readLine()
@@ -59,8 +59,8 @@ private fun mainMenu() {
 }
 
 private fun instructions() {
-    println(instructions)
-    println(instructions2)
+    Console.send(instructions)
+    Console.send(instructions2)
 
     while (phase == Phase.INSTRUCTIONS) {
         var input : String? = readLine()
@@ -84,20 +84,22 @@ private fun game() {
 }
 
 private fun combatEncounter() {
-    Encounter(player).run()
-    if (player.isDead()) {
+    GameData.encounter = Encounter()
+    GameData.encounter.run()
+
+    if (GameData.player.isDead()) {
         gamePhase = GamePhase.COMPLETE
         phase = Phase.PLAY_AGAIN
     }
     else {
-        player.health = player.maxHealth
+        GameData.player.health = GameData.player.maxHealth
 
-        if (player.hasPoints()) {
-            player.chooseSkill()
+        if (GameData.player.hasPoints()) {
+            GameData.player.chooseSkill()
         }
     }
 
-    println("Type [continue] to continue")
+    Console.send("Type [continue] to continue")
     while (true) {
         val input : String? = readLine()
 
@@ -112,14 +114,14 @@ private fun combatEncounter() {
 }
 
 private fun death() {
-    println("You died. Type [retry] to play again")
+    Console.send("You died. Type [retry] to play again")
 
     while (true) {
         val input : String? = readLine()
 
         if (input == "retry") {
             phase = Phase.GAME
-            player.health = player.maxHealth
+            GameData.player.health = GameData.player.maxHealth
             break
         }
     }

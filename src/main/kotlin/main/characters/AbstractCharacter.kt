@@ -24,7 +24,7 @@ abstract class AbstractCharacter(val maxHealth : Int, var type : String) {
     open val names : ArrayList<String> = ArrayList()
     open var name: String = "???"
 
-    abstract fun takeTurn(encounter : Encounter)
+    abstract fun takeTurn()
 
     fun takeDamage(amount : Int) : Encounter.AttackResult {
         val dodgeRoll : Int = Random.nextInt(1, 100)

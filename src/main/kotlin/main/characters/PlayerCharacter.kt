@@ -3,7 +3,8 @@ package main.characters
 import main.Items.Items
 import main.Items.ShieldItem
 import main.Items.WeaponItem
-import main.encounter.Encounter
+import main.console.Console
+import main.util.GameData
 
 /**
  * Created by RedstoneParadox on 12/22/2018.
@@ -19,57 +20,41 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
         inventory.add(ShieldItem("shield", 3))
     }
 
-    override fun takeTurn(encounter : Encounter) {
+    override fun takeTurn() {
 
-        while (true) {
-            val input : String? = readLine()
+        var input : ArrayList<Any> = Console.listen("attack", "block") as ArrayList<Any>
 
-            if (input is String) {
-
-                if (parseTurnInput(input, encounter)) {
-                    break
-                }
-            }
+        if (input[0] == "block") {
+            GameData.encounter.block(this, inventory[1] as ShieldItem)
         }
-    }
-
-    fun parseTurnInput(input : String, encounter: Encounter): Boolean {
-
-        if (input == "attack") {
-            encounter.attack(this, encounter.enemies[0], inventory[0] as WeaponItem)
-            return true
+        else if (input[0] == "attack") {
+            GameData.encounter.attack(this, GameData.encounter.getEnemy(input[1] as String)!!, inventory[0] as WeaponItem)
         }
-        else if (input == "block") {
-            encounter.block(this, inventory[1] as ShieldItem)
-            return true
-        }
-
-        return false
     }
 
     fun gainEXP(exp : Int) {
 
         this.exp += exp
-        print("You gained $exp experience.")
+        val xpGain : String = "You gained $exp experience."
 
         if (this.exp >= levelReq()) {
             this.exp -= levelReq()
             this.level += 1
             this.skillPoints += 1
-            println(" You are now level $level. Only ${levelReq() - this.exp} more experience to go until level ${level + 1}.")
+            Console.send("$xpGain You are now level $level. Only ${levelReq() - this.exp} more experience to go until level ${level + 1}.")
         }
         else {
-            println(" Only ${levelReq() - this.exp} more experience to go until level ${level + 1}.")
+            Console.send("$xpGain Only ${levelReq() - this.exp} more experience to go until level ${level + 1}.")
         }
     }
 
     fun chooseSkill() {
         var chosen : Boolean = false
 
-        println("You have $skillPoints unspent skill points.")
+        Console.send("You have $skillPoints unspent skill points.")
 
         if (!chosen) {
-            println("You may spend them to upgrade your [strength] or [dexterity] skills.")
+            Console.send("You may spend them to upgrade your [strength] or [dexterity] skills.")
             chosen = true
         }
 
@@ -93,13 +78,13 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
         if (input == "strength") {
             strength += 1
             skillPoints -= 1
-            println("You now have ${strength} strength points.")
+            Console.send("You now have ${strength} strength points.")
             return true
         }
         else if (input == "dexterity") {
             dexterity += 1
             skillPoints -= 1
-            println("You now have ${dexterity} dexterity points.")
+            Console.send("You now have ${dexterity} dexterity points.")
             return true
         }
 
@@ -124,7 +109,6 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
     }
 
     override fun enter(surprise: Boolean, weapon: WeaponItem?, damage: Int): String {
-        return "Umm, wow, this is akward because the player's entrance method isn't supposed to get printed and now it" +
-                "is, so...yeah..."
+        return "The player somehow enters...you're not supposed to be able to do this."
     }
 }
