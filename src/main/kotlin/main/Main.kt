@@ -19,7 +19,7 @@ lateinit var gamePhase : GamePhase
 val greeting: String = "Welcome to Console Adventures!"
 val greeting2: String = "Type [start] to begin."
 
-val instructions: String = "Type [attack] to attack and [block] to block."
+val instructions: String = "Type [attack {enemy name}] to attack and [block] to block."
 val instructions2: String = "Type [start] whenever you are ready."
 
 
@@ -48,28 +48,16 @@ private fun mainMenu() {
     Console.send(greeting)
     Console.send(greeting2)
 
-    while (phase == Phase.MAIN_MENU) {
-        var input : String? = readLine()
-
-        if (input == "start") {
-            phase = Phase.INSTRUCTIONS
-            break
-        }
-    }
+    Console.listen(Console.START_COMMAND)
+    phase = Phase.INSTRUCTIONS
 }
 
 private fun instructions() {
     Console.send(instructions)
     Console.send(instructions2)
 
-    while (phase == Phase.INSTRUCTIONS) {
-        var input : String? = readLine()
-
-        if (input == "start") {
-            phase = Phase.GAME
-            break
-        }
-    }
+    Console.listen(Console.START_COMMAND)
+    phase = Phase.GAME
 }
 
 private fun game() {
@@ -100,13 +88,7 @@ private fun combatEncounter() {
     }
 
     Console.send("Type [continue] to continue")
-    while (true) {
-        val input : String? = readLine()
-
-        if (input == "continue") {
-            break
-        }
-    }
+    Console.listen(Console.CONTINUE_COMMAND)
 
     if (gamePhase == GamePhase.COMBAT) {
         combatEncounter()
@@ -115,16 +97,9 @@ private fun combatEncounter() {
 
 private fun death() {
     Console.send("You died. Type [retry] to play again")
-
-    while (true) {
-        val input : String? = readLine()
-
-        if (input == "retry") {
-            phase = Phase.GAME
-            GameData.player.health = GameData.player.maxHealth
-            break
-        }
-    }
+    Console.listen(Console.RETRY_COMMAND)
+    phase = Phase.GAME
+    GameData.player.reset()
 }
 
 enum class Phase {

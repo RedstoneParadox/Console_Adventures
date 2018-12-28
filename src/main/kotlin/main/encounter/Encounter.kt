@@ -27,7 +27,7 @@ class Encounter() {
 
     fun run() {
         var enemyCount : Int = Random.nextInt(0, ((1 + floor(GameData.player.level.toDouble()/4)).toInt())) + 1
-        var enemyNames : ArrayList<*> = WeightedPools.genericEnemyNames.loot(enemyCount)
+        var enemyNames : ArrayList<*> = WeightedPools.GENERIC_ENEMY_NAMES.loot(enemyCount)
         PoolFunctions.restorePool()
 
         for (i in 0 until(enemyCount)) {

@@ -13,36 +13,36 @@ object WeightedPools {
     }
 
     //Enemy inventory
-    val basicEnemyWeapons : WeightedPool = WeightedPool()
-    val enemyWeapons : WeightedPool = WeightedPool()
+    val BASIC_ENEMY_WEAPONS : WeightedPool = WeightedPool()
+    val ENEMY_WEAPONS : WeightedPool = WeightedPool()
 
     private fun initEquipmentPools() {
         //Enemy starter inventory
-        basicEnemyWeapons.addEntry(Items.PET_STICK, 19)
-        basicEnemyWeapons.addEntry(Items.SWORD, 2)
+        BASIC_ENEMY_WEAPONS.addEntry(Items.PET_STICK, 19)
+        BASIC_ENEMY_WEAPONS.addEntry(Items.SWORD, 2)
 
         //Switch enemy inventory to this after the player reaches level 5
-        enemyWeapons.addEntry(Items.SWORD, 3)
-        enemyWeapons.addEntry(Items.SPEAR, 4)
-        enemyWeapons.addEntry(Items.PET_STICK, 8)
+        ENEMY_WEAPONS.addEntry(Items.SWORD, 3)
+        ENEMY_WEAPONS.addEntry(Items.SPEAR, 4)
+        ENEMY_WEAPONS.addEntry(Items.PET_STICK, 8)
     }
 
     //Name pools
-    val genericEnemyNames : WeightedPool = WeightedPool()
+    val GENERIC_ENEMY_NAMES : WeightedPool = WeightedPool()
 
     private fun initNamePools() {
-        genericEnemyNames.addEntry("Bob", func = "shrink")
-        genericEnemyNames.addEntry("Billy", func = "shrink")
-        genericEnemyNames.addEntry("Dave", func = "shrink")
-        genericEnemyNames.addEntry("Joe", func = "shrink")
-        genericEnemyNames.addEntry("Steve", func = "shrink")
-        genericEnemyNames.addEntry("Alex", func = "shrink")
-        genericEnemyNames.addEntry("Gary", func = "shrink")
-        genericEnemyNames.addEntry("Jasper", func = "shrink")
-        genericEnemyNames.addEntry("Michael", func = "shrink")
-        genericEnemyNames.addEntry("Eric", func = "shrink")
-        genericEnemyNames.addEntry("Johny", func = "shrink")
-        genericEnemyNames.addEntry("Mason", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Bob", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Billy", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Dave", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Joe", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Steve", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Alex", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Garry", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Jasper", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Michael", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Eric", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Johnny", func = "shrink")
+        GENERIC_ENEMY_NAMES.addEntry("Mason", func = "shrink")
     }
 
     //Spawn pools

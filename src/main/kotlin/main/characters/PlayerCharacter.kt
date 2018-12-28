@@ -22,7 +22,7 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
 
     override fun takeTurn() {
 
-        var input : ArrayList<Any> = Console.listen("attack", "block") as ArrayList<Any>
+        var input : ArrayList<Any> = Console.listen(Console.ATTACK_COMMAND, Console.BLOCK_COMMAND) as ArrayList<Any>
 
         if (input[0] == "block") {
             GameData.encounter.block(this, inventory[1] as ShieldItem)
@@ -58,37 +58,30 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
             chosen = true
         }
 
-        while (true) {
-            val input : String? = readLine()
-
-            if (input is String) {
-                if (parseSkillInput(input)) {
-                    break
-                }
-            }
-        }
+        val input : String = Console.listen(Console.SKILL_COMMAND)[1] as String
+        parseSkillInput(input)
 
         if (skillPoints > 0) {
             chooseSkill()
         }
     }
 
-    private fun parseSkillInput(input : String) : Boolean {
+    private fun parseSkillInput(input : String) {
 
         if (input == "strength") {
             strength += 1
             skillPoints -= 1
             Console.send("You now have ${strength} strength points.")
-            return true
+            return
         }
         else if (input == "dexterity") {
             dexterity += 1
             skillPoints -= 1
             Console.send("You now have ${dexterity} dexterity points.")
-            return true
+            return
         }
 
-        return false
+        Console.send("You cannot become skilled in the ways of $input in this game.")
     }
 
     private fun levelReq() : Int {
@@ -110,5 +103,11 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
 
     override fun enter(surprise: Boolean, weapon: WeaponItem?, damage: Int): String {
         return "The player somehow enters...you're not supposed to be able to do this."
+    }
+
+    fun reset() {
+        health = maxHealth
+        level = 0
+        skillPoints = 0
     }
 }

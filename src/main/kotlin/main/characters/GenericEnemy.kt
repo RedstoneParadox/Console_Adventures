@@ -24,10 +24,10 @@ class GenericEnemy(type: String, maxHealth: Int, val exp: Int) : AbstractCharact
 
     init {
         if (GameData.player.level >= 5) {
-            inventory.add(WeightedPools.enemyWeapons.loot(1)[0] as WeaponItem)
+            inventory.add(WeightedPools.ENEMY_WEAPONS.loot(1)[0] as WeaponItem)
         }
         else {
-            inventory.add(WeightedPools.basicEnemyWeapons.loot(1)[0] as WeaponItem)
+            inventory.add(WeightedPools.BASIC_ENEMY_WEAPONS.loot(1)[0] as WeaponItem)
         }
     }
 

@@ -9,16 +9,22 @@ object Console {
 
     var commands : ArrayList<Command> = ArrayList()
     //Commands
-    lateinit var attackCommand : Command
-    lateinit var blockCommand : Command
+    lateinit var ATTACK_COMMAND : Command
+    lateinit var BLOCK_COMMAND : Command
+    lateinit var START_COMMAND : Command
+    lateinit var CONTINUE_COMMAND : Command
+    lateinit var RETRY_COMMAND : Command
+    lateinit var SKILL_COMMAND : Command
 
-    fun listen(vararg expectedCommands: String): MutableList<Any> {
+    fun listen(vararg expectedCommands: Command): MutableList<Any> {
         while (true) {
             while (input !is String) {
                 input = readLine()
             }
 
             val parsedInput = parseInput(*expectedCommands)
+
+            input = null
 
             if (parsedInput != null) {
                 return parsedInput
@@ -28,7 +34,7 @@ object Console {
 
     }
 
-    fun parseInput(vararg expectedCommands: String): MutableList<Any>? {
+    private fun parseInput(vararg expectedCommands: Command): MutableList<Any>? {
         val segmentedInput : List<String> = (input as String).split(" ")
         val parsedInput: ArrayList<Any> = ArrayList()
 
@@ -43,15 +49,16 @@ object Console {
 
         for (command in commands) {
             if (parsedInput[0] == command.name && isExpectedCommand(command.name, *expectedCommands)) {
-                val arguments : ArrayList<Any> = parsedInput
-                arguments.removeAt(0)
+                if ((parsedInput.size - 1) != command.arguments.size) {
+                    return null
+                }
 
-                for (argument in command.arguments) {
-                    if (!argument.matchArgument(arguments[0])) {
-                        return null
+                for (i in 1 until(parsedInput.size)) {
+                    for (argument in command.arguments) {
+                        if (!argument.matchArgument(parsedInput[i])) {
+                            return null
+                        }
                     }
-
-                    arguments.removeAt(0)
                 }
             }
         }
@@ -59,9 +66,9 @@ object Console {
         return parsedInput
     }
 
-    private fun isExpectedCommand(commandName : String, vararg expectedCommands: String) : Boolean {
+    private fun isExpectedCommand(commandName : String, vararg expectedCommands: Command) : Boolean {
         for (expectedCommand in expectedCommands) {
-            if (commandName == expectedCommand) {
+            if (commandName == expectedCommand.name) {
                 return true
             }
         }
@@ -69,15 +76,26 @@ object Console {
         return false
     }
 
+
+
     fun send(output : String) {
         System.out.println("> " + output)
     }
 
     fun initCommands() {
-        attackCommand = registerCommand("attack")
-        attackCommand.addArgument(EnemyNameArgument(ArgumentType.STRING))
+        ATTACK_COMMAND = registerCommand("attack")
+        ATTACK_COMMAND.addArgument(EnemyNameArgument(ArgumentType.STRING))
 
-        blockCommand = registerCommand("block")
+        BLOCK_COMMAND = registerCommand("block")
+
+        START_COMMAND = registerCommand("start")
+
+        CONTINUE_COMMAND = registerCommand("continue")
+
+        RETRY_COMMAND = registerCommand("retry")
+
+        SKILL_COMMAND = registerCommand("skill")
+        SKILL_COMMAND.addArgument(SkillNameArgument(ArgumentType.STRING))
     }
 
     fun registerCommand(name : String) : Command {
