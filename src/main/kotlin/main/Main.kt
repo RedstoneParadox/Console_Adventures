@@ -17,23 +17,19 @@ var phase: Phase = Phase.MAIN_MENU
 lateinit var gamePhase : GamePhase
 
 val greeting: String = "Welcome to Console Adventures!"
-val greeting2: String = "Type [start] to begin."
-
-val instructions: String = "Type [attack {enemy name}] to attack and [block] to block."
-val instructions2: String = "Type [start] whenever you are ready."
+val greeting2: String = "Type [start] to begin or [help] for commands."
 
 
 fun main(args: Array<String>) {
     WeightedPools.initPools()
     Console.initCommands()
-    mainMenu()
+
+    Console.send(greeting)
+    Console.send(greeting2)
 
     while (run) {
         if (phase == Phase.MAIN_MENU) {
             mainMenu()
-        }
-        else if (phase == Phase.INSTRUCTIONS) {
-            instructions()
         }
         else if (phase == Phase.GAME) {
             game()
@@ -45,19 +41,18 @@ fun main(args: Array<String>) {
 }
 
 private fun mainMenu() {
-    Console.send(greeting)
-    Console.send(greeting2)
 
-    Console.listen(Console.START_COMMAND)
-    phase = Phase.INSTRUCTIONS
-}
+    while (true) {
+        var input = Console.listen(Console.START_COMMAND, Console.HELP_COMMAND)
 
-private fun instructions() {
-    Console.send(instructions)
-    Console.send(instructions2)
-
-    Console.listen(Console.START_COMMAND)
-    phase = Phase.GAME
+        if (input[0] == "start") {
+            phase = Phase.GAME
+            break
+        }
+        else if (input[0] == "help") {
+            Console.printCommands()
+        }
+    }
 }
 
 private fun game() {
@@ -104,7 +99,6 @@ private fun death() {
 
 enum class Phase {
     MAIN_MENU,
-    INSTRUCTIONS,
     GAME,
     PLAY_AGAIN
 }

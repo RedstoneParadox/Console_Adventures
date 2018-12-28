@@ -9,6 +9,7 @@ object Console {
 
     var commands : ArrayList<Command> = ArrayList()
     //Commands
+    lateinit var HELP_COMMAND : Command
     lateinit var ATTACK_COMMAND : Command
     lateinit var BLOCK_COMMAND : Command
     lateinit var START_COMMAND : Command
@@ -83,24 +84,43 @@ object Console {
     }
 
     fun initCommands() {
-        ATTACK_COMMAND = registerCommand("attack")
-        ATTACK_COMMAND.addArgument(EnemyNameArgument(ArgumentType.STRING))
+        START_COMMAND = registerCommand("start", "starts the game.")
 
-        BLOCK_COMMAND = registerCommand("block")
+        HELP_COMMAND = registerCommand("help", "Lists all commands.")
 
-        START_COMMAND = registerCommand("start")
+        ATTACK_COMMAND = registerCommand("attack", "Attacks the target enemy with the chosen weapon.")
+        ATTACK_COMMAND.addArgument(EnemyNameArgument(ArgumentType.STRING, "enemy name"))
 
-        CONTINUE_COMMAND = registerCommand("continue")
+        BLOCK_COMMAND = registerCommand("block", "Blocks with the chosen shield.")
 
-        RETRY_COMMAND = registerCommand("retry")
+        START_COMMAND = registerCommand("start", "Starts the game.")
 
-        SKILL_COMMAND = registerCommand("skill")
-        SKILL_COMMAND.addArgument(SkillNameArgument(ArgumentType.STRING))
+        CONTINUE_COMMAND = registerCommand("continue", "Continues.")
+
+        RETRY_COMMAND = registerCommand("retry", "Hi.")
+
+        SKILL_COMMAND = registerCommand("skill", "Used to upgrade one of your skills. You get skill points when you level up.")
+        SKILL_COMMAND.addArgument(SkillNameArgument(ArgumentType.STRING, "skill"))
     }
 
-    fun registerCommand(name : String) : Command {
-        var command = Command(name)
+    fun registerCommand(name : String, description: String) : Command {
+        var command = Command(name, description)
         commands.add(command)
         return command
+    }
+
+    fun printCommands() {
+        for (command in commands) {
+            var info: String = "[${command.name}"
+
+            if (!command.arguments.isEmpty()) {
+                for (argument in command.arguments) {
+                    info += " {${argument.name}}"
+                }
+            }
+
+            info += "] ${command.description}"
+            send(info)
+        }
     }
 }
