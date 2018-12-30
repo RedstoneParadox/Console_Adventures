@@ -16,8 +16,8 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
     var skillPoints : Int = 0
 
     init {
-        inventory.add(Items.SWORD)
-        inventory.add(ShieldItem("shield", 3))
+        weapons.add(Items.SWORD)
+        shields.add(ShieldItem("shield", 3))
     }
 
     override fun takeTurn() {
@@ -25,10 +25,10 @@ class PlayerCharacter(maxHealth: Int, name: String) : AbstractCharacter(maxHealt
         var input : ArrayList<Any> = Console.listen(Console.ATTACK_COMMAND, Console.BLOCK_COMMAND) as ArrayList<Any>
 
         if (input[0] == "block") {
-            GameData.encounter.block(this, inventory[1] as ShieldItem)
+            GameData.encounter.block(this, getShield(input[1] as String)!!)
         }
         else if (input[0] == "attack") {
-            GameData.encounter.attack(this, GameData.encounter.getEnemy(input[1] as String)!!, inventory[0] as WeaponItem)
+            GameData.encounter.attack(this, GameData.encounter.getEnemy(input[1] as String)!!, getWeapon(input[2] as String)!!)
         }
     }
 

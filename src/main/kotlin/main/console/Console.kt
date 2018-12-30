@@ -1,5 +1,7 @@
 package main.console
 
+import main.util.GameData
+
 /**
  * Created by RedstoneParadox on 12/25/2018.
  */
@@ -54,11 +56,11 @@ object Console {
                     return null
                 }
 
-                for (i in 1 until(parsedInput.size)) {
-                    for (argument in command.arguments) {
-                        if (!argument.matchArgument(parsedInput[i])) {
-                            return null
-                        }
+                for (i in 1 until parsedInput.size) {
+                    val argument : AbstractArgument = command.arguments[i - 1]
+
+                    if (!argument.matchArgument(parsedInput[i])) {
+                        return null
                     }
                 }
             }
@@ -80,7 +82,7 @@ object Console {
 
 
     fun send(output : String) {
-        System.out.println("> " + output)
+        System.out.println("> $output")
     }
 
     fun initCommands() {
@@ -89,9 +91,11 @@ object Console {
         HELP_COMMAND = registerCommand("help", "Lists all commands.")
 
         ATTACK_COMMAND = registerCommand("attack", "Attacks the target enemy with the chosen weapon.")
-        ATTACK_COMMAND.addArgument(EnemyNameArgument(ArgumentType.STRING, "enemy name"))
+        ATTACK_COMMAND.addArgument(NameArgument(ArgumentType.STRING, "enemy name") {GameData.encounter.enemies})
+        ATTACK_COMMAND.addArgument(NameArgument(ArgumentType.STRING, "weapon name") {GameData.player.weapons})
 
         BLOCK_COMMAND = registerCommand("block", "Blocks with the chosen shield.")
+        BLOCK_COMMAND.addArgument(NameArgument(ArgumentType.STRING, "shield name") {GameData.player.shields})
 
         START_COMMAND = registerCommand("start", "Starts the game.")
 
@@ -123,4 +127,6 @@ object Console {
             send(info)
         }
     }
+
+
 }

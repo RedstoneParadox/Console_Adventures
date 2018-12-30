@@ -11,6 +11,4 @@ object GameData {
     lateinit var encounter: Encounter
     val player: PlayerCharacter = PlayerCharacter(10, "you")
 
-
-
 }

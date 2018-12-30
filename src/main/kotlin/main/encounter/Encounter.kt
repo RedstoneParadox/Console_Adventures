@@ -9,6 +9,7 @@ import main.console.Console
 import main.pool.PoolFunctions
 import main.pool.WeightedPools
 import main.util.GameData
+import main.util.INameable
 import kotlin.math.floor
 import kotlin.random.Random
 
@@ -18,11 +19,14 @@ import kotlin.random.Random
 class Encounter() {
 
     var enemies : ArrayList<GenericEnemy> = ArrayList()
-
     var stage : Stage = Stage.START
 
     fun addEnemy(enemyCharacter: GenericEnemy) {
         enemies.add(enemyCharacter)
+    }
+
+    fun getEnemyList(): ArrayList<INameable> {
+        return enemies as ArrayList<INameable>
     }
 
     fun run() {
