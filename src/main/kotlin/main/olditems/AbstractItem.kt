@@ -1,4 +1,4 @@
-package main.Items
+package main.olditems
 
 import main.characters.AbstractCharacter
 import main.util.INameable

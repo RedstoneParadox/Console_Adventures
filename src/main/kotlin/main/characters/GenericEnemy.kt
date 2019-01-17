@@ -1,6 +1,6 @@
 package main.characters
 
-import main.Items.WeaponItem
+import main.olditems.WeaponItem
 import main.encounter.Encounter
 import main.pool.WeightedPools
 import main.util.GameData

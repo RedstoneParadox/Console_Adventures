@@ -1,12 +1,12 @@
-package main.entities
+package main.entity
 
 import main.console.Console
-import main.entities.ai.AIGoal
+import main.entity.ai.AIGoal
 
 /**
  * Created by RedstoneParadox on 1/16/2019.
  */
-class Entity {
+class Entity(val name : String, var health : Int) {
 
     //Stats
     private var strength = 0
@@ -19,17 +19,13 @@ class Entity {
 
     //Equipment
 
-    //Other
-    var name = ""
-    var health = 1
-
     fun takeTurn() {
         queryGoals(GoalType.TURN_START)
     }
 
-    fun addGoal(goal : AIGoal) {
-        goal.entity = this
-        goals + goal
+    fun addGoal(goalSupplier : (entity : Entity) -> AIGoal) {
+        val goal = goalSupplier.invoke(this)
+        goals.add(goal)
     }
 
     private fun queryGoals(goalType: GoalType) {
@@ -43,14 +39,14 @@ class Entity {
     }
 
     //Increasing stats
-    fun increaseStat(stat : String, amount : Int) {
+    fun increaseStat(stat : String, amount : Int = 1) {
 
         when (stat) {
             "strength" -> strength += amount
             "dexterity" -> dexterity += amount
             "endurance" -> endurance += amount
             "charisma" -> charisma += amount
-            else -> Console.send("Error: That stat does not exist.")
+            else -> Console.send("This game does not allow you to become skilled in the ways of $stat.")
         }
     }
 

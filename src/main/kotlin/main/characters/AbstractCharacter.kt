@@ -1,8 +1,8 @@
 package main.characters
 
-import main.Items.AbstractItem
-import main.Items.ShieldItem
-import main.Items.WeaponItem
+import main.olditems.AbstractItem
+import main.olditems.ShieldItem
+import main.olditems.WeaponItem
 import main.encounter.Encounter
 import main.util.INameable
 import kotlin.random.Random

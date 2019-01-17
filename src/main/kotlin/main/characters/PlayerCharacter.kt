@@ -1,8 +1,8 @@
 package main.characters
 
-import main.Items.Items
-import main.Items.ShieldItem
-import main.Items.WeaponItem
+import main.olditems.Items
+import main.olditems.ShieldItem
+import main.olditems.WeaponItem
 import main.console.Console
 import main.util.GameData
 

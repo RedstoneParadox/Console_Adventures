@@ -1,7 +1,7 @@
 package main.encounter
 
-import main.Items.ShieldItem
-import main.Items.WeaponItem
+import main.olditems.ShieldItem
+import main.olditems.WeaponItem
 import main.characters.AbstractCharacter
 import main.characters.GenericEnemy
 import main.characters.PlayerCharacter
